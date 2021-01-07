@@ -246,4 +246,4 @@
 > `Note : ` `HAVING` อยู่หลัง `GROUP BY` เสมอ
 > ## **`ลำดับ command SQL`**
 >
-> ![orderSQL](img/orderSQL.PNG)
+> ![orderSQL](img\orderSQL.PNG)
