@@ -83,5 +83,14 @@
 > ORDER BY CustomerId DESC
 > LIMIT 5;
 > ```
-> 
+> ## *`INSERT`*
+> => เป็น command ที่เอาไว้เพิ่ม data เข้าไปใน Table ของ database
+> ```
+> INSERT INTO "ชื่อTable"
+> VALUES("ใส่ค่าเรียงตามลำดับของ field ใน Table");
 >
+>INSERT INTO customers
+>VALUES(60,'Jomphop','Saibuatong','2BSimple Co.',
+>'171/281 Khonkaen','Khonkaen','KH','Thailand','40000',
+>'0845167512',NULL,'Jomphop.Saibuatong@hotmail.com',3);
+> ```
