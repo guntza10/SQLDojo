@@ -32,7 +32,7 @@
 >
 > `Note :` ชื่อ field (column) lower case, upper case ไม่มีผลใส่ได้หมด
 > ## *`AS`*
-> => เป็น command ที่เอาไว้กำหนดชื่อ field (column) ที่เราอยากให้แสดงออกมาโดยไม่ได้ใช้ชื่อ field เดิม
+> => เป็น command ที่เอาไว้กำหนดชื่อ field (column) ที่เราอยากให้แสดงออกมาโดยไม่ได้ใช้ชื่อ field เดิม (`ใช้กำหนดชื่อ field ใหม่ตอนแสดงผล`)
 > ```
 > SELECT 
 >	FirstName AS customer_firstName,
@@ -132,3 +132,118 @@
 > WHERE CustomerId = 61;
 > ```
 > `Note : ` `DELETE` ถ้าไม่ใส่ `WHERE` มันจะ delete ทุก record บน Table
+> ## **`Aggregate Function`**
+> => เป็นชุดของ command ที่เอาไว้จัดการคำนวณ data เช่น หา sum, average, max, min, count เป็นต้น
+>
+> `Note : ` `Aggregate Function` เราใส่หลัง `SELECT` เสมอ
+>
+> `Note : ` `WHERE` ไม่สามารถใช้กับ `Aggregate Function` ได้, `WHERE` ใช้กับการเลือกค่าปกติจาก Table เท่านั้น
+>
+> `Note : ` `WHERE` ไม่สามารถใช้กับ `AS` ได้, `WHERE` ใช้กับการเลือกค่าปกติจาก Table เท่านั้น ซึ่ง `AS` มันเป็นแค่ชื่อใหม่ที่เอาไว้แสดงผล ไม่ได้เปลี่ยนชื่อ field ถาวร
+>
+> `Note : ` `Aggregate Function` เป็นชุดคำสั่งที่ใช้สำหรับคำนวณ data เพราะฉะนั้นเราสามารถ +,-,*,/ กับ `Aggregate Function` ได้ด้วย
+> ```
+> Ex.
+> SELECT AVG(Milliseconds) / 60000
+> FROM tracks;
+>
+> SELECT AVG(Milliseconds) / 60000 AS Avg_Minute
+>FROM tracks;
+> ```
+> ### *`COUNT`*
+> => เป็น command ที่เอาไว้นับจำนวน data ใน Table
+> ```
+> SELECT COUNT("ชื่อ field ที่ต้องการจะนับจำนวน")
+> FROM "ชื่อ Table"
+> WHERE "เงื่อนไข data ที่ต้องจะนับ";
+>
+> SELECT COUNT(FirstName)
+> FROM customers
+> WHERE City = 'Paris';
+>
+> SELECT COUNT(FirstName)
+> FROM customers;
+> ```
+> `Note : ` `COUNT` ถ้าไม่ใส่ `WHERE` จะนับจำนวน data ทั้งหมดใน Table
+> ### *`(AVG)AVERAGE`*
+> => เป็น command ที่เอาไว้หาค่าเฉลี่ยของ data
+> ```
+> SELECT AVG("ชื่อ field ที่ต้องการจะหาค่าเฉลี่ย")
+> FROM "ชื่อ Table";
+>
+> SELECT AVG(Total)
+> FROM invoices;
+> ```
+> ### *`SUM`*
+> => เป็น command ที่เอาไว้หาผลรวมของ data
+> ```
+> SELECT SUM("ชื่อ field ที่ต้องการจะหาผลรวม")
+> FROM "ชื่อ Table";
+>
+> SELECT SUM(Total)
+> FROM invoices;
+> ```
+> ### *`MAX`*
+> => เป็น command ที่เอาไว้ใช้หาค่า Maximum
+> ```
+> SELECT MAX("ชื่อ field ที่ต้องการจะหาค่าที่มากที่สุด")
+> FROM "ชื่อ Table";
+>
+> SELECT MAX(Total)
+> FROM invoices;
+> ```
+> ### *`MIN`*
+> => เป็น command ที่เอาไว้ใช้หาค่า Minimum
+> ```
+> SELECT MIN("ชื่อ field ที่ต้องการจะหาค่าที่น้อยที่สุด")
+> FROM "ชื่อ Table";
+>
+> SELECT MIN(Total)
+> FROM invoices;
+> ```
+> ### *`GROUP BY`*
+> => เป็น command ที่เอาไว้ใช้ในการ Group ระหว่าง Value กับ Field
+> ```
+> SELECT "Aggregate Function","field ที่ต้องการจะเอามา Group"
+> FROM "ชื่อ Table"
+> GROUP BY "field ที่ต้องการจะเอามา Group";
+>
+> SELECT COUNT(CustomerId),City
+> FROM Customers
+> GROUP BY City;
+> ```
+> `Note : ` `Aggregate Function` ที่มักจะเอามาใช้กับ `GROUP BY` คือ `COUNT`, `AVG`, `SUM` เป็นต้น
+>
+> `Note : ` 
+> ```
+> SELECT COUNT(CustomerId) AS Qrt,Country
+> FROM Customers
+> GROUP BY Country
+> ORDER BY COUNT(CustomerId);
+>
+> SELECT COUNT(CustomerId) AS Qrt,Country
+> FROM Customers
+> GROUP BY Country
+> ORDER BY Qrt;
+>
+> *** ORDER BY จะเลือกใช้ชื่อ field เก่า หรือ ชื่อ field ใหม่ (AS) ก็ได้
+> ```
+> ### *`HAVING`*
+> => เป็น command ที่ใช้แทน `WHERE` สำหรับใช้กับ `Aggregate Function`
+> ```
+> SELECT COUNT(CustomerId) AS Qrt,Country
+> FROM Customers
+> GROUP BY Country
+> HAVING COUNT(CustomerId) >= 5
+> ORDER BY Qrt;
+>
+> SELECT COUNT(CustomerId) AS Qrt,Country
+> FROM Customers
+> GROUP BY Country
+> HAVING Qrt >= 5
+> ORDER BY Qrt;
+> ```
+> `Note : ` `HAVING` อยู่หลัง `GROUP BY` เสมอ
+> ## **`ลำดับ command SQL`**
+>
+> ![orderSQL](img/orderSQL.PNG)
