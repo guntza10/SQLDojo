@@ -85,6 +85,8 @@
 > ```
 > ## *`INSERT`*
 > => เป็น command ที่เอาไว้เพิ่ม data เข้าไปใน Table ของ database
+> 
+> **Approach 1**
 > ```
 > INSERT INTO "ชื่อTable"
 > VALUES("ใส่ค่าเรียงตามลำดับของ field ใน Table");
@@ -94,3 +96,39 @@
 >'171/281 Khonkaen','Khonkaen','KH','Thailand','40000',
 >'0845167512',NULL,'Jomphop.Saibuatong@hotmail.com',3);
 > ```
+> `Note : ` บาง field ไม่สามารถเป็น `NULL` ทำให้ไม่สามารถ INSERT ได้ ควรระวัง
+>
+> **Approach 2**
+> ```
+> INSERT INTO "ชื่อTable" ("เฉพาะชื่อ field ที่เราต้องการจะใส่ Value เพื่อ INSERT")
+> VALUES("ใส่ค่าเรียงตามลำดับของ field ที่กำหนดไว้ข้างบน");
+>
+> INSERT INTO customers (FirstName,LastName,Email)
+> VALUES('Kant','Saibuatong','Kant@hotmail.com');
+> ```
+> ## *`UPDATE`*
+> => เป็น command ที่เอาไว้ update ข้อมูลแต่ละ field ใน record ของ Table
+> ```
+> UPDATE "ชื่อ Table" 
+>SET 
+> "ชื่อ field ที่ต้องการจะ update" = value ใหม่ที่ต้องการจะ update,
+> "ชื่อ field ที่ต้องการจะ update" = value ใหม่ที่ต้องการจะ update
+> WHERE "เงื่อนไขของ record ที่ต้องการจะ update ข้อมูล";
+>
+> UPDATE customers 
+>SET 
+> FirstName = 'KantWhenUpdate',
+> LastName = 'SaibuatongWhenUpdate'
+> WHERE CustomerId = 61;
+> ```
+> `Note : ` ระวังทุกครั้งที่เรา `UPDATE` ถ้าไม่ใส่ `WHERE` มันจะ Update ให้ทุก record บน Table
+> ## *`DELETE`*
+> => เป็น command ที่เอาไว้ลบ data ออกจาก Table
+> ```
+> DELETE FROM "ชื่อ Table"
+> WHERE "เงื่อนไขของ record ที่ต้องการจะลบ";
+>
+> DELETE FROM customers
+> WHERE CustomerId = 61;
+> ```
+> `Note : ` `DELETE` ถ้าไม่ใส่ `WHERE` มันจะ delete ทุก record บน Table
