@@ -19,6 +19,10 @@
 > - update
 > - query
 >
+> `Note : ` string ใน SQL จะครอบด้วย `" "` หรือ `' '` ก็ได้
+>
+> `Note : ` lower case(ตัวพิมพ์เล็ก),upper case(ตัวพิมพ์ใหญ่) ใน SQL เขียนได้หมด
+> 
 > ## *`SELECT`*
 > => เป็น command ที่เอาไว้เรียกแสดงผล data
 > ```
@@ -429,3 +433,53 @@
 > `Note : ` การ `LEFT,RIGHT JOIN`
 > - LEFT => ข้อมูลทางซ้ายจะต้องครบ แต่ทางขวาไม่ครบก็ได้
 > - RIGHT => ข้อมูลทางขวาจะต้องครบ แต่ทางซ้ายไม่ครบก็ได้
+>
+> `Note : ` การ `JOIN` เราสามารถ JOIN Table เดียวกันได้
+> ```
+> SELECT *
+> FROM employees INNER JOIN employees AS employees2
+> ON employees.ReportsTo = employees2.EmployeeId;
+>
+> *** ในการ JOIN Table เดียวกันต้องมีการกำหนด AS ให้ Table 1 ตัว ด้วยเนื่องจากมันจะ error เพราะมันไม่รู้ว่าตอนอ้างอิง Key ใน ON มันจะไปอ้างอิง Table ไหนถ้ามันเป็นชื่อ Table เหมือนกัน เราเลยต้อง AS กำหนดชื่อให้อีก Table นึงเพื่อระบุความชัดเจนให้ sql มันสามารถ execute ได้
+>
+> SELECT 
+> employees.EmployeeId,
+> employees.FirstName,
+> employees.LastName,
+> employees.Title,
+> employees2.FirstName,
+> employees2.LastName
+> FROM employees LEFT JOIN employees AS employees2
+> ON employees.ReportsTo = employees2.EmployeeId;
+>
+> *** ในการ JOIN Table เดียวกันตอนจะ SELECT field ควรจะต้องระบุ field พร้อม Table ด้วย ไม่งั้นมันจะ error เพราะว่ามันไม่รู้ว่าจะอ้างอิง Table ไหน เพราะ Table ที่ JOIN กันเป็น Table เดียวกัน
+> ```
+> ## **`CASE`**
+> => เป็น command ที่เอาไว้กำหนดเงื่อนไขในการประมวลผลของ field
+> ```
+> SELECT InvoiceId,Total,
+> CASE
+> WHEN Total >= 10 THEN 'AAA'
+> WHEN Total < 10 THEN 'AA'
+> ELSE 'NONE'
+> END AS Result
+> FROM invoices;
+> ```
+> `Note : ` 
+> - `CASE` เป็นการกำหนดเงื่อนไขก่อนที่จะแสดงออกมาเป็น field ใหม่
+> - `CASE` อยู่หลัง `SELECT` เสมอ (`เปรียบเสมือน field`)
+>
+> `Note : ` ลำดับ `WHEN` ใน `CASE` มีความสำคัญระวังดีๆ ถ้ามันเจอเงื่อนไข `WHEN` ที่เข้าเงื่อนไขก่อน มันจะไม่ทำเงื่อนไข `WHEN` ที่เหลือต่อ
+> ## **`SubQueries`**
+> => เป็นการเขียน command query ย่อย
+>
+>  ![ex1](img/ex1.PNG)
+>  ![ex2](img/ex2.PNG)
+> 
+> `Note : ` จากภาพที่ 2 เป็นการ set ค่าให้ column1
+>
+> `Note : ` การจะใช้ subQuery ควรจะต้องดูด้วยว่ามีวิธีอื่นที่ง่ายกว่ามั้ย ไม่อย่างนั้นอาจจะเป็นการเพิ่มความซับซ้อน
+> ## **`Comment`**
+> => เป็นการ comment code ไม่ให้ compile เขียนได้ 2 แบบ
+> - /* ...... */
+> - --....
