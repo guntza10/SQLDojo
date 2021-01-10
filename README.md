@@ -247,3 +247,185 @@
 > ## **`ลำดับ command SQL`**
 >
 > ![orderSQL](img/orderSql.PNG)
+> ## **`SQL Operators`**
+> ### *`NOT`*
+> => เป็น SQL operator ที่เป็น not
+> ```
+> SELECT * FROM employees
+> WHERE NOT Title = 'IT Staff';
+>
+> ความหมายคือ SELECT เอาทุก field จาก Table employees ทุกตัวที่ Title ไม่เป็น "IT Staff"
+> ```
+> ### *`IN`*
+> => เป็น SQL operator ที่เป็น contain
+> ```
+> SELECT * FROM "ชื่อ Table"
+> WHERE
+> "ชื่อ field" IN ('Value ที่จะ contain');
+>
+> SELECT * FROM employees
+> WHERE
+> Title IN ('Sales Support Agent','Sales Manager','General Manager');
+> 
+> IN ใช้แทน case ข้างล่างนี้
+> SELECT * FROM employees
+> WHERE
+> Title = 'Sales Support Agent' OR Title = 'Sales Manager' OR Title = 'General Manager';
+> ```
+> `Note : ` การเรียงลำดับใน `IN` ไม่มีผลต่อการเรียงข้อมูลที่แสดงออกมา ลำดับการเรียงขึ้นอยู่กับลำดับของข้อมูลบน Table
+> `Note : ` not contain
+> ```
+> Approach 1
+> SELECT * FROM customers
+> WHERE 
+> Country NOT IN ('Brazil','USA','Sweden');
+>
+> Approach 2
+> SELECT * FROM customers
+> WHERE 
+> NOT Country IN ('Brazil','USA','Sweden');
+> ```
+> ### *`LIKE`*
+> => เป็น SQL operator ที่ใช้เป็น startWith,lastWith
+> ```
+> SELECT * FROM "ชื่อ Table"
+> WHERE 
+> "ชื่อfield" LIKE 'ขึ้นต้นด้วยอะไร%ลงท้ายด้วยอะไร';
+>
+> -> startWith
+> SELECT * FROM customers
+> WHERE 
+> FirstName LIKE 'A%';
+>
+> -> lastWith
+> SELECT * FROM customers
+> WHERE 
+> FirstName LIKE '%a';
+>
+> -> contain
+> SELECT * FROM customers
+> WHERE 
+> FirstName LIKE '%b%';
+>
+> -> contain & lastWith
+> SELECT * FROM customers
+> WHERE 
+> FirstName LIKE '%b%t';
+>
+> -> startWith & lastWith
+> SELECT * FROM customers
+> WHERE 
+> FirstName LIKE 'R%t';
+> ```
+> `Note : ` % เป็น `keyword` ที่ใช้กำหนดดังนี้
+> - `LIKE` 'keyword%' startWith ด้วย keyword
+> - `LIKE` '%keyword' lastWith ด้วย keyword
+> - `LIKE` '%keyword%' ขึ้นต้นหรือลงท้ายด้วยอะไรก็ได้ที่มี keyword แทรกอยู่ระหว่าง (`มี keyword อยู่ใน string ตรงไหนก็ได้`)
+> ### *`BETWEEN`*
+> => เป็น SQL operator ที่เอาไว้ใช้กับ context ช่วงระหว่าง
+> ```
+> SELECT * FROM customers
+> WHERE 
+> CustomerId BETWEEN 10 AND 35;
+>
+> -> Not BETWEEN approach 1
+> SELECT * FROM customers
+> WHERE 
+> NOT CustomerId BETWEEN 10 AND 35;
+>
+> -> Not BETWEEN approach 2
+> SELECT * FROM customers
+> WHERE 
+> CustomerId NOT BETWEEN 10 AND 35;
+> ```
+> `Note : ` `BETWEEN` มากับ `AND` เสมอ
+> ### *`IS NULL`*
+> => เป็น SQL operator ที่เอาไว้เช็คว่าเป็น null (`ไม่มีค่า`)
+> ```
+> SELECT * FROM "ชื่อ Table"
+> WHERE 
+> "ชื่อ field" IS NULL;
+>
+> SELECT * FROM customers
+> WHERE 
+> Fax IS NULL;
+>
+> -> IS NOT NULL Approach 1
+> SELECT * FROM customers
+> WHERE 
+> Phone IS NOT NULL;
+>
+> -> IS NOT NULL Approach 2
+> SELECT * FROM customers
+> WHERE 
+> NOT Phone IS NULL;
+> ``` 
+> `Note : ` `null` กับ `" "` ไม่เหมือนกัน ระวังดึๆ 
+> - `null` => คือไม่มีค่าเลย เป็น null
+> - `" "` => มีค่าเป็น white space
+> ### *`AND`*,*`OR`*
+> ```
+> SELECT * FROM customers
+> WHERE 
+> Country = 'Italy' AND State = 'RM';
+>
+> SELECT * FROM customers
+> WHERE 
+> Country = 'Brazil' OR State = 'SP';
+> ```
+> `Note : ` ระวังเรื่องการใส่ ( ) ครอบเงื่อนไขของ operator ให้ดีถ้าใส่ผิด logic จะเพี้ยนทันที
+> ## **`JOIN`**
+> => เป็น command ที่เอาไว้ join Table เข้าด้วยกันด้วย `key`
+> ### *`INNER JOIN`*
+> => เป็นการ join Table ที่ intersect กัน
+>
+> ![innerJoin](img/innerJoin.PNG)
+> ```
+> SELECT *
+> FROM invoices INNER JOIN customers
+> ON invoices.CustomerId = customers. CustomerId;
+>
+> SELECT invoiceId,FirstName,LastName
+> FROM invoices INNER JOIN customers
+> ON invoices.CustomerId = customers.CustomerId;
+>
+> ```
+> `Note : ` ตอน SELECT field มาใช้ สามารถระบุชื่อ Table พร้อมกับ field ของ Table ได้ เผื่อ Table ที่ join กันมีชื่อ field ซ้ำกัน จะได้ระบุว่าเราจะเอาชื่อ field มาจาก Table ไหน
+>
+> ```
+> SELECT invoices.invoiceId,customers.FirstName,customers.LastName
+> FROM invoices INNER JOIN customers
+> ON invoices.CustomerId = customers. CustomerId;
+> ```
+> ### *`LEFT (OUTER) JOIN`*
+> => เป็นการ join Table โดยที่จะเอา Table ทางซ้ายมาทุกตัวรวมกับที่ intersect กับทางขวา
+>
+> ![leftJoin](img/leftJoin.PNG)
+> ```
+> SELECT Customers.CustomerName, Orders.OrderID
+> FROM Customers LEFT JOIN Orders 
+> ON Customers.CustomerID = Orders.CustomerID;
+> ```
+> ### *`RIGHT (OUTER) JOIN`*
+> => เป็นการ join Table โดยที่จะเอา Table ทางขวามาทุกตัวรวมกับที่ intersect กับทางซ้าย
+>
+> ![rightJoin](img/rightJoin.PNG)
+> ```
+> SELECT Orders.OrderID, Employees.LastName, Employees.FirstName
+> FROM Orders RIGHT JOIN Employees 
+> ON Orders.EmployeeID = Employees.EmployeeID;
+> ```
+> `Note : `การ `LEFT,RIGHT JOIN` ส่วนที่ไม่ได้ถูก intersect กันจะไม่มีข้อมูล
+>
+> ### *`FULL (OUTER) JOIN`*
+> => เป็นการ join Table โดยที่จะเอา Table ทางขวากับทางซ้ายมาทุกตัว
+>
+> ![fullJoin](img/fullJoin.PNG)
+> ```
+> SELECT Customers.CustomerName, Orders.OrderID
+> FROM Customers FULL OUTER JOIN Orders 
+> ON Customers.CustomerID=Orders.CustomerID
+> ```
+> `Note : ` การ `LEFT,RIGHT JOIN`
+> - LEFT => ข้อมูลทางซ้ายจะต้องครบ แต่ทางขวาไม่ครบก็ได้
+> - RIGHT => ข้อมูลทางขวาจะต้องครบ แต่ทางซ้ายไม่ครบก็ได้
