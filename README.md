@@ -325,6 +325,8 @@
 > - `LIKE` 'keyword%' startWith ด้วย keyword
 > - `LIKE` '%keyword' lastWith ด้วย keyword
 > - `LIKE` '%keyword%' ขึ้นต้นหรือลงท้ายด้วยอะไรก็ได้ที่มี keyword แทรกอยู่ระหว่าง (`มี keyword อยู่ใน string ตรงไหนก็ได้`)
+> 
+> `Note : ` ในการใช้ `LIKE` แล้วใช้ `%` ต้องใช้ `' '` ครอบเท่านั้น ใช้ `" "` ไม่ได้
 > ### *`BETWEEN`*
 > => เป็น SQL operator ที่เอาไว้ใช้กับ context ช่วงระหว่าง
 > ```
