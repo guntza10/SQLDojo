@@ -169,6 +169,8 @@
 > FROM customers;
 > ```
 > `Note : ` `COUNT` ถ้าไม่ใส่ `WHERE` จะนับจำนวน data ทั้งหมดใน Table
+>
+> `Note : ` ถ้าต้องการนับ data ทั้งหมดจะ `SELECT` field ไหนก็ได้ หรือ เอาทุก field (`*`)
 > ### *`(AVG)AVERAGE`*
 > => เป็น command ที่เอาไว้หาค่าเฉลี่ยของ data
 > ```
